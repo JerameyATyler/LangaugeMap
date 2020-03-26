@@ -11,7 +11,7 @@ import os
 def main(iso_path, ietf_path):
     iso_path = Path(iso_path).absolute().resolve()
     iso_codes = read_iso(iso_path)
-    ietf_path = Path(ietf_path).absolute().resolve()
+    ietf_path = Path(ietf_codes_path).absolute().resolve()
     ietf_codes = read_ietf(ietf_path)
 
     return format_dict(iso_codes, ietf_codes)
@@ -62,6 +62,10 @@ def format_dict(iso_dict, ietf_dict):
         label = iso_dict[lang]
         if len(territory.strip()) > 0:
             label = label + '-{}'.format(territory)
+            if 'zh-Hans' in i:
+                label = label + '-Simplified'
+            if 'zh-Hant' in i:
+                label = label + '-Traditional'
 
         formatted_dict[i] = label
     return formatted_dict
